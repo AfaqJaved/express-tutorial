@@ -8,26 +8,33 @@ import { BookResponse } from "../response/book.response";
 export default class BookService {
     // add book
     // Client side parameters request payload
-    public static addBook(requestPayload: BookRequestPayload) {
-        BookRepo.addBook(BookMapper.requestToEntityMapper(requestPayload));
+    public static async addBook(requestPayload: BookRequestPayload) {
+        await BookRepo.addBook(BookMapper.requestToEntityMapper(requestPayload));
         return "sucess";
     }
     // delete book
-    public static deleteBook(id: number) {
-        BookRepo.deleteBook(id);
+    public static async deleteBook(id: number) {
+        await BookRepo.deleteBook(id);
         return "sucess";
     }
 
     // find all book
-    public static findAllBooks() {
-        let data: BookResponse[] = BookRepo.findAllBooks().map((book) => {
+    public static async findAllBooks() {
+        let data: BookResponse[] = (await BookRepo.findAllBooks()).map((book) => {
             return BookMapper.entityToResponseMapper(book);
         })
         return data;
     }
     // find by id
-    public static findBookById(id: number) {
-        let bookResponse = BookMapper.entityToResponseMapper(BookRepo.findBookById(id));
-        return bookResponse;
+    public static async findBookById(id: number) {
+        let bookEntity = await BookRepo.findBookById(id);
+        if (bookEntity) {
+            let bookResponse = BookMapper.entityToResponseMapper(bookEntity);
+            return bookResponse;
+        }
+        else {
+            return "Book Does Not Exsist";
+        }
+
     }
 }

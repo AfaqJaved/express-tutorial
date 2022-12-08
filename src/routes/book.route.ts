@@ -7,20 +7,20 @@ import BookService from "../services/book.service";
 const BookRouter = Router();
 
 
-BookRouter.get("/findAll", (req: Request, res: Response) => {
-    res.json(BookService.findAllBooks());
+BookRouter.get("/findAll", async (req: Request, res: Response) => {
+    res.json(await BookService.findAllBooks());
 })
 
-BookRouter.post("/add", (req: Request, res: Response) => {
-    res.json(BookService.addBook(req.body as BookRequestPayload));
+BookRouter.post("/add", async (req: Request, res: Response) => {
+    res.json(await BookService.addBook(req.body as BookRequestPayload));
 })
 
-BookRouter.get("/findById/:id", (req: Request, res: Response) => {
-    res.json(BookService.findBookById(Number(req.params.id)));
+BookRouter.get("/findById/:id", async (req: Request, res: Response) => {
+    res.json(await BookService.findBookById(Number(req.params.id)));
 })
 
-BookRouter.get("/delete/:id", (req: Request, res: Response) => {
-    res.json(BookService.deleteBook(Number(req.params.id)));
+BookRouter.get("/delete/:id", async (req: Request, res: Response) => {
+    res.json(await BookService.deleteBook(Number(req.params.id)));
 })
 
 
